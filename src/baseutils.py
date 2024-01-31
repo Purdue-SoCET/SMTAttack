@@ -109,7 +109,7 @@ def finddip(pinwires, keywires, interwires, poutwires, list_dip, list_orgcirc, k
     # right_condition = Or(outxored_right)
     # Assert(Or(outxored_right))
     new_time = time.time()
-    result, intr = Solve(Or(outxored_right))  # Solve the instance in MonoSAT, return either True if the instance is SAT, and False if it is UNSAT
+    result = Solve(Or(outxored_right))  # Solve the instance in MonoSAT, return either True if the instance is SAT, and False if it is UNSAT
     new_time = time.time() - new_time
     # result = Solve()  # Solve the instance in MonoSAT, return either True if the instance is SAT, and False if it is UNSAT
 
@@ -226,7 +226,7 @@ def double_dip(pinwires, keywires, interwires, poutwires, list_dip, list_orgcirc
 
     # right_condition = Or(outxored_right)
     new_time = time.time()
-    result, intr = Solve(And(And(outxnored_right1), And(outxnored_right2), Or(outxored_right1), Or(outxored_right2), Or(outxored_right3), Or(outxored_right4), Or(key_xored)))  # Solve the instance in MonoSAT, return either True if the instance is SAT, and False if it is UNSAT
+    result = Solve(And(And(outxnored_right1), And(outxnored_right2), Or(outxored_right1), Or(outxored_right2), Or(outxored_right3), Or(outxored_right4), Or(key_xored)))  # Solve the instance in MonoSAT, return either True if the instance is SAT, and False if it is UNSAT
     new_time = time.time() - new_time
     # result = Solve()  # Solve the instance in MonoSAT, return either True if the instance is SAT, and False if it is UNSAT
 
@@ -272,7 +272,7 @@ def findkey(keyin_wires, interwires, poutwires, list_dip, list_orgcirc, keyinc):
 
     keyfinding = And(outxnored)
 
-    result, intr = Solve(keyfinding)  # Solve the instance in MonoSAT, return either True if the instance is SAT, and False if it is UNSAT
+    result = Solve(keyfinding)  # Solve the instance in MonoSAT, return either True if the instance is SAT, and False if it is UNSAT
 
     for i in range(0, len(keyin_wires)):
         keyin[i].symbol = keyinc[i].symbol
@@ -315,7 +315,7 @@ def findkey_list(keyin_wires, interwires, poutwires, list_dip, list_orgcirc, key
 
     keyfind = And(outxnored)
 
-    result, intr = Solve(keyfind)  # Solve the instance in MonoSAT, return either True if the instance is SAT, and False if it is UNSAT
+    result = Solve(keyfind)  # Solve the instance in MonoSAT, return either True if the instance is SAT, and False if it is UNSAT
 
     for i in range(0, len(keyin_wires)):
         keyin[i].symbol = keyinc[i].symbol
@@ -424,7 +424,7 @@ def finddipham(pinwires, keywires, interwires, poutwires, list_dip, list_orgcirc
     current_timeout = int(math.ceil(sum(list(timeout_array)) / len(list(timeout_array))))
     logging.debug("Current Timeout: {}".format(current_timeout))
     new_time = time.time()
-    result, intr = Solve(And(Or(outxored_right), upper_condition, lower_condition, And(minham_conditions)),
+    result = Solve(And(Or(outxored_right), upper_condition, lower_condition, And(minham_conditions)),
                          time_limit_seconds=5,
                          conflict_limit=50000)  # Solve the instance in MonoSAT, return either True if the instance is SAT, and False if it is UNSAT
     new_time = time.time() - new_time
@@ -433,6 +433,11 @@ def finddipham(pinwires, keywires, interwires, poutwires, list_dip, list_orgcirc
 
     logging.debug("Hamming Threshold: {},{}".format(hamming_threshold_low.value(), hamming_threshold_up.value()))
     logging.debug("Hamming Value: ()".format(hammming_val.value()))
+
+    if(result):
+        intr = 1
+    else:
+        intr = 0
 
     if intr == 1:
         timeout_array.append(20)
@@ -606,7 +611,7 @@ def finddiplazy(args, obf_bench_address, pinwires, keywires, interwires, poutwir
 
 
     new_time = time.time()
-    result, intr = Solve(And(Or(outxored_right), Or(path_conditions1), Or(path_conditions2)))  # Solve the instance in MonoSAT, return either True if the instance is SAT, and False if it is UNSAT
+    result = Solve(And(Or(outxored_right), Or(path_conditions1), Or(path_conditions2)))  # Solve the instance in MonoSAT, return either True if the instance is SAT, and False if it is UNSAT
     new_time = time.time() - new_time
     # result = Solve()  # Solve the instance in MonoSAT, return either True if the instance is SAT, and False if it is UNSAT
 
@@ -754,7 +759,7 @@ def graph_dep_lazy(args, benchmark_address, orgpoutwires, keyin):
 
                 logging.debug("{} -> {}".format(n[k], n[u - i - 1]))
 
-                result, intr = Solve(And(source_edges[k], dest_edges[i]))
+                result = Solve(And(source_edges[k], dest_edges[i]))
                 logging.debug("{}".format(result))
 
                 if result:
@@ -899,7 +904,7 @@ def graph_dep(args, benchmark_address, orgpoutwires):
 
                 logging.debug("{} -> {}".format(n[k], n[u - i - 1]))
 
-                result, intr = Solve(And(source_edges[k], dest_edges[i]))
+                result = Solve(And(source_edges[k], dest_edges[i]))
                 logging.debug("{}", result)
 
                 if result:
@@ -944,7 +949,7 @@ def graph_dep(args, benchmark_address, orgpoutwires):
             key_vars[i] = Var(true())
             key_vars[i].symbol = solved_keys[i] + "c"
             terms.append(key_vars[i])
-    result, intr = Solve(And(terms))
+    result = Solve(And(terms))
     key_vars.sort(key=operator.attrgetter('symbol'))
     for i in range(0, len(key_vars)):
         logging.debug("{} = {}".format(key_vars[i].getSymbol(), str(key_vars[i].value())))

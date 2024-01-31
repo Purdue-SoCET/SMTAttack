@@ -70,7 +70,7 @@ def extract_logic(args):
 
     bench_file.close()
 
-    extracted_bench_address = "../benchmarks/logic_extracted/" + args.design_name + "_" + args.tag + ".bench"
+    extracted_bench_address = "./benchmarks/logic_extracted/" + args.design_name + "_" + args.tag + ".bench"
 
     new_bench_file = open(extracted_bench_address, 'w')
     new_bench_file.write(new_bench)
@@ -98,7 +98,7 @@ def delaybench2muxbench(args, benchmark_address):
                       benchmark_address.find("dll_obfuscated/") + 15: benchmark_address.find(".bench")]
     bench_folder = benchmark_address[0: benchmark_address.find("dll_obfuscated/")]
 
-    extracted_bench_address = "../benchmarks/dll_muxed/" + args.design_name + "_" + args.tag + ".bench"
+    extracted_bench_address = "./benchmarks/dll_muxed/" + args.design_name + "_" + args.tag + ".bench"
 
     new_bench_file = open(extracted_bench_address, 'w')
     new_bench_file.write(new_bench)

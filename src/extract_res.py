@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     logging.warning("************************ Starting Main **********************")
 
-    reports_directory = "../benchmarks/reports/"
+    reports_directory = "./benchmarks/reports/"
 
     num_reports = 60
     bench_name = "c432"

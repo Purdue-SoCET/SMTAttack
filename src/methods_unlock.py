@@ -6,7 +6,7 @@ import converts
 import baseutils
 import copy
 import time
-import copy
+import ctypes
 import operator
 from random import randint
 import math
@@ -27,7 +27,7 @@ DBG_PR = 0
 def eager_dll_attack(args):
 
     obf_bench_address = args.obfuscated
-    extracted_bench_address = "../benchmarks/logic_extracted/" + args.design_name + "_" + args.tag + ".bench"
+    extracted_bench_address = "./benchmarks/logic_extracted/" + args.design_name + "_" + args.tag + ".bench"
     orig_bench_address = args.original
 
     exe_func_time = 0
@@ -121,8 +121,8 @@ def eager_dll_attack(args):
             iter += 1
             list_dip.append(dscinp)
 
-            cpy_dscinp = copy.deepcopy(dscinp)
-            list_cpy_dip.append(cpy_dscinp)
+            #cpy_dscinp = copy.deepcopy(dscinp)
+            list_cpy_dip.append(dscinp)
 
             for i in range(0, len(dscinp)):
                 if str(dscinp[i].value()) == "True":
@@ -298,8 +298,10 @@ def reduced_sat_attack(args):
             iter += 1
             list_dip.append(dscinp)
 
-            cpy_dscinp = copy.deepcopy(dscinp)
-            list_cpy_dip.append(cpy_dscinp)
+            #cpy_dscinp = copy.deepcopy(dscinp)
+            #cpy_dscinp = (ctypes.c_byte * len(dscinp)).from_address(id(dscinp) + sys.getsizeof(s) - len(s) - 1)
+            #ctypes.memmove(cpy_dscinp, dscinp, dscinp.__sizeof__())
+            list_cpy_dip.append(dscinp)
 
             for i in range(0, len(dscinp)):
                 if str(dscinp[i].value()) == "True":
@@ -472,8 +474,8 @@ def smt_approximate_attack(args):
             iter += 1
             list_dip.append(dscinp)
 
-            cpy_dscinp = copy.deepcopy(dscinp)
-            list_cpy_dip.append(cpy_dscinp)
+            #cpy_dscinp = copy.deepcopy(dscinp)
+            list_cpy_dip.append(dscinp)
 
             for i in range(0, len(dscinp)):
                 if str(dscinp[i].value()) == "True":
@@ -549,7 +551,7 @@ def smt_approximate_attack(args):
 def lazy_dll_attack(args):
 
     obf_bench_address = args.obfuscated
-    dll_muxed = "../benchmarks/dll_muxed/" + args.design_name + "_" + args.tag + ".bench"
+    dll_muxed = "./benchmarks/dll_muxed/" + args.design_name + "_" + args.tag + ".bench"
     orig_bench_address = args.original
 
     exe_func_time = 0
@@ -645,8 +647,8 @@ def lazy_dll_attack(args):
             iter += 1
             list_dip.append(dscinp)
 
-            cpy_dscinp = copy.deepcopy(dscinp)
-            list_cpy_dip.append(cpy_dscinp)
+            #cpy_dscinp = copy.deepcopy(dscinp)
+            list_cpy_dip.append(dscinp)
 
             for i in range(0, len(dscinp)):
                 if str(dscinp[i].value()) == "True":
@@ -818,8 +820,8 @@ def smt_hamming_sweep_attack(args):
             iter += 1
             list_dip.append(dscinp)
 
-            cpy_dscinp = copy.deepcopy(dscinp)
-            list_cpy_dip.append(cpy_dscinp)
+            #cpy_dscinp = copy.deepcopy(dscinp)
+            list_cpy_dip.append(dscinp)
 
             for i in range(0, len(dscinp)):
                 if str(dscinp[i].value()) == "True":
@@ -946,8 +948,8 @@ def limited_sat(args):
             iter += 1
             list_dip.append(dscinp)
 
-            cpy_dscinp = copy.deepcopy(dscinp)
-            list_cpy_dip.append(cpy_dscinp)
+            #cpy_dscinp = copy.deepcopy(dscinp)
+            list_cpy_dip.append(dscinp)
 
             for i in range(0, len(dscinp)):
                 if str(dscinp[i].value()) == "True":
@@ -1068,8 +1070,8 @@ def limited_hamming(args):
             iter += 1
             list_dip.append(dscinp)
 
-            cpy_dscinp = copy.deepcopy(dscinp)
-            list_cpy_dip.append(cpy_dscinp)
+            #cpy_dscinp = copy.deepcopy(dscinp)
+            list_cpy_dip.append(dscinp)
 
             for i in range(0, len(dscinp)):
                 if str(dscinp[i].value()) == "True":

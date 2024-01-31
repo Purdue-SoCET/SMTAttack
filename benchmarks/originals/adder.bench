@@ -1,0 +1,11 @@
+###
+INPUT(a)
+INPUT(b)
+INPUT(cin)
+OUTPUT(sum)
+OUTPUT(cout)
+n1 = xor(a, b)
+sum = xor(n1, cin)
+n2 = and(a, b)
+n3 = and(n1, cin)
+cout = or(n2, n3)
